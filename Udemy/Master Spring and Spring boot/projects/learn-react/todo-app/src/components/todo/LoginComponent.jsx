@@ -5,7 +5,7 @@ import ShowInvalidComponent from './ShowInvalidComponent'
 
 export default function LoginComponent() {
 
-    const [username, setUsername] = useState('dkd')
+    const [username, setUsername] = useState('duy')
     const [password, setPassword] = useState('123')
     const navigate = useNavigate()
     const authContext = useAuth()

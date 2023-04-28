@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { retrieveAllTodosForUsername } from "./api/HelloWorldApiService"
+import { deleteTodoById, retrieveAllTodosForUsername } from "./api/HelloWorldApiService"
+import { useAuth } from "./security/AuthContext"
 
 export default function ListTodosComponent() {
 
@@ -8,6 +9,8 @@ export default function ListTodosComponent() {
     const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay())
 
     const [todos, setTodos] = useState([])
+    const [message, setMessage] = useState(null)
+    const authContext= useAuth()
     
     useEffect(
         () => refreshTodos()
@@ -15,23 +18,36 @@ export default function ListTodosComponent() {
 
     function refreshTodos()
     {
-        retrieveAllTodosForUsername('duy')
+        retrieveAllTodosForUsername(authContext.username)
         .then( (response) =>    
         {
             setTodos( () => {
                 const a= response.data
                 return a
             })
-            console.log(response) 
         })
         .catch(   (error) =>    console.log(error) )
     }
     // here
-    
+
+    function deteleTodo(id)
+    {
+        console.log(id)
+        deleteTodoById(authContext.username, id)
+        .then( (response) =>
+        {
+            refreshTodos()
+            setMessage('Delete Successful')
+
+        })
+        .catch( (error) => console.log(error) )
+    }
+    console.log(authContext.username)
     return (
         <div className="ListTodosComponent">
             <h1>Things You Want To Do!</h1>
             <div>
+                {message && <div className="alert alert-success">{message}</div>}
                 <table className='table'>
                     <thead>
                             <tr>
@@ -50,6 +66,9 @@ export default function ListTodosComponent() {
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
+                                    <td>
+                                        <input type="submit" name="btn-update" value="Delete" onClick={ () => deteleTodo(todo.id) } />
+                                    </td>
                                 </tr>
                             )
                         )
