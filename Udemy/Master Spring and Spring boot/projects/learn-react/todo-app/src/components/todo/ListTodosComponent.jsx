@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { deleteTodoById, retrieveAllTodosForUsername } from "./api/HelloWorldApiService"
 import { useAuth } from "./security/AuthContext"
+import {  useNavigate } from "react-router-dom"
 
 export default function ListTodosComponent() {
 
@@ -11,7 +12,10 @@ export default function ListTodosComponent() {
     const [todos, setTodos] = useState([])
     const [message, setMessage] = useState(null)
     const authContext= useAuth()
+    const navigate= useNavigate()
+
     
+
     useEffect(
         () => refreshTodos()
     ) 
@@ -42,7 +46,14 @@ export default function ListTodosComponent() {
         })
         .catch( (error) => console.log(error) )
     }
-    console.log(authContext.username)
+
+    function updateTodo (id){
+        console.log('clicked')
+        return navigate(`/update/${id}`)
+        
+    }
+
+
     return (
         <div className="ListTodosComponent">
             <h1>Things You Want To Do!</h1>
@@ -67,7 +78,10 @@ export default function ListTodosComponent() {
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
                                     <td>
-                                        <input type="submit" name="btn-update" value="Delete" onClick={ () => deteleTodo(todo.id) } />
+                                        <input type="submit" name="btn-delete" value="Delete" onClick={ () => deteleTodo(todo.id) } />
+                                    </td>
+                                    <td>
+                                        <input type="submit" name="btn-update" value="Update" onClick={ () => updateTodo(todo.id) } />
                                     </td>
                                 </tr>
                             )

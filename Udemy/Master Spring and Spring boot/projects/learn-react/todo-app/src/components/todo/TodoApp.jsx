@@ -9,6 +9,7 @@ import WelcomeComponent from './WelcomeComponent';
 import ErrorComponent from './ErrorComponent';
 import AuthProvider from './security/AuthContext';
 import {useAuth} from './security/AuthContext'
+import UpdateComponent from './UpdateComponent';
 
 export default function TodoApp() {
     return (
@@ -32,11 +33,20 @@ export default function TodoApp() {
                             </AuthenticationRoute>
                         } />
                         <Route path='/logout' element={ <LogoutComponent /> }></Route>
+                        <Route path='/update/:id' element={ 
+                            <AuthenticationRoute>
+                                <UpdateComponent /> 
+                            </AuthenticationRoute>
+                        }>
+                            
+                        </Route>
                         <Route path='*' element={
                             <AuthenticationRoute>
                                 <ErrorComponent />
                             </AuthenticationRoute>
-                        }></Route>
+                        }>
+                        </Route>
+                        
                     </Routes>
                     <FooterComponent />
 

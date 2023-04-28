@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom"
-import { retrieveAllTodosForUsername } from "./api/HelloWorldApiService"
+import { retrieveAllTodosForUsername, retrieveHelloWorldBean } from "./api/HelloWorldApiService"
 import { useState } from "react"
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -7,8 +7,8 @@ export  default  function WelcomeComponent() {
     const params= useParams()
     const [message, setMessage]= useState('sth')
 
-    function calledHelloWorldRestApi    (){
-        retrieveAllTodosForUsername('duy')
+    function calledHelloWorldRestApi(){
+        retrieveHelloWorldBean()
                               .then( (response) =>    successfulResponse(response) )
                               .catch( (error) =>     errorResponse(error) )
                               .finally (() => console.log('clean up'))
