@@ -21,7 +21,7 @@ public class TodoService {
 		todos.add(new Todo(++todosCount, "duy","Learn Full Stack Development",
 				LocalDate.now().plusYears(12), false ));
 	}
-	
+
 	public List<Todo> findByUsername(String username){
 		Predicate<? super Todo> predicate = 
 				todo -> todo.getUsername().equalsIgnoreCase(username);
@@ -48,6 +48,7 @@ public class TodoService {
 	public void updateTodo(Todo todo) {
 		deleteById(todo.getId());
 		todos.add(todo);
+		System.out.println(todosCount);
 	}
 
 	public Todo find(String username, int id)
@@ -55,4 +56,6 @@ public class TodoService {
 		Predicate<? super Todo> predicate = todo -> todo.getId() == id && todo.getUsername().equalsIgnoreCase(username);
 		return todos.stream().filter(predicate).findFirst().get();
 	}
+
+
 }
